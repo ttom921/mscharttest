@@ -11,6 +11,7 @@ namespace MainForm
 {
     public partial class MainForm : Form
     {
+        GenJWebEvent genJWebEvent = new GenJWebEvent();
         public MainForm()
         {
             InitializeComponent();
@@ -20,6 +21,11 @@ namespace MainForm
         {
             FormChart frm2 = new FormChart(this);
             frm2.Show();
+        }
+
+        private void btnGenData_Click(object sender, EventArgs e)
+        {
+            genJWebEvent.GenTestData();
         }
     }
 }
