@@ -69,42 +69,37 @@ namespace MainForm
             //設定 Chart
             BarChart.Width = parentform.ClientRectangle.Width;
             BarChart.Height = parentform.ClientRectangle.Height;
-            BarChart.Margin = new Padding(100, 100, 100, 100);
             Title title = new Title();
             title.Text = "長條圖";
             title.Alignment = ContentAlignment.MiddleCenter;
-            //title.Position.Height = 10;
-            //title.Font = new System.Drawing.Font("Trebuchet MS", 14F, FontStyle.Bold);
             BarChart.Titles.Add(title);
 
             //設定 ChartArea----------------------------------------------------------------------
-            BarChart.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true; //3D效果
-            BarChart.ChartAreas["ChartArea1"].Area3DStyle.IsClustered = true; //並排顯示
-            BarChart.ChartAreas["ChartArea1"].Area3DStyle.Rotation = 40; //垂直角度
-            BarChart.ChartAreas["ChartArea1"].Area3DStyle.Inclination = 50; //水平角度
-            BarChart.ChartAreas["ChartArea1"].Area3DStyle.PointDepth = 30; //數據條深度
-            BarChart.ChartAreas["ChartArea1"].Area3DStyle.WallWidth = 0; //外牆寬度
-            BarChart.ChartAreas["ChartArea1"].Area3DStyle.LightStyle = LightStyle.Realistic; //光源
-            BarChart.ChartAreas["ChartArea1"].BackColor = Color.FromArgb(240, 240, 240); //背景色
-            BarChart.ChartAreas["ChartArea1"].AxisX2.Enabled = AxisEnabled.False; //隱藏 X2 標示
-            BarChart.ChartAreas["ChartArea1"].AxisY2.Enabled = AxisEnabled.False; //隱藏 Y2 標示
-            BarChart.ChartAreas["ChartArea1"].AxisY2.MajorGrid.Enabled = false;   //隱藏 Y2 軸線
+            //BarChart.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true; //3D效果
+            //BarChart.ChartAreas["ChartArea1"].Area3DStyle.IsClustered = true; //並排顯示
+            //BarChart.ChartAreas["ChartArea1"].Area3DStyle.Rotation = 40; //垂直角度
+            //BarChart.ChartAreas["ChartArea1"].Area3DStyle.Inclination = 50; //水平角度
+            //BarChart.ChartAreas["ChartArea1"].Area3DStyle.PointDepth = 30; //數據條深度
+            //BarChart.ChartAreas["ChartArea1"].Area3DStyle.WallWidth = 0; //外牆寬度
+            //BarChart.ChartAreas["ChartArea1"].Area3DStyle.LightStyle = LightStyle.Realistic; //光源
+            //BarChart.ChartAreas["ChartArea1"].BackColor = Color.FromArgb(240, 240, 240); //背景色
+            //BarChart.ChartAreas["ChartArea1"].AxisX2.Enabled = AxisEnabled.False; //隱藏 X2 標示
+            //BarChart.ChartAreas["ChartArea1"].AxisY2.Enabled = AxisEnabled.False; //隱藏 Y2 標示
+            //BarChart.ChartAreas["ChartArea1"].AxisY2.MajorGrid.Enabled = false;   //隱藏 Y2 軸線
             //Y 軸線顏色
             BarChart.ChartAreas["ChartArea1"].AxisY.MajorGrid.LineColor = Color.FromArgb(150, 150, 150);
             //X 軸線顏色
             BarChart.ChartAreas["ChartArea1"].AxisX.MajorGrid.LineColor = Color.FromArgb(150, 150, 150);
             BarChart.ChartAreas["ChartArea1"].AxisY.LabelStyle.Format = "#,###";
-            //Chart1.ChartAreas["ChartArea1"].AxisY2.Maximum = 160;
-            //Chart1.ChartAreas["ChartArea1"].AxisY2.Interval = 20;
 
             //設定 Legends------------------------------------------------------------------------                
-            BarChart.Legends["Legends1"].DockedToChartArea = "ChartArea1"; //顯示在圖表內
-            //Chart1.Legends["Legends1"].Docking = Docking.Bottom; //自訂顯示位置
-            BarChart.Legends["Legends1"].BackColor = Color.FromArgb(235, 235, 235); //背景色
+            //BarChart.Legends["Legends1"].DockedToChartArea = "ChartArea1"; //顯示在圖表內
+            ////Chart1.Legends["Legends1"].Docking = Docking.Bottom; //自訂顯示位置
+            //BarChart.Legends["Legends1"].BackColor = Color.FromArgb(235, 235, 235); //背景色
             //斜線背景
-            BarChart.Legends["Legends1"].BackHatchStyle = ChartHatchStyle.DarkDownwardDiagonal;
-            BarChart.Legends["Legends1"].BorderWidth = 1;
-            BarChart.Legends["Legends1"].BorderColor = Color.FromArgb(200, 200, 200);
+            //BarChart.Legends["Legends1"].BackHatchStyle = ChartHatchStyle.DarkDownwardDiagonal;
+            //BarChart.Legends["Legends1"].BorderWidth = 1;
+            //BarChart.Legends["Legends1"].BorderColor = Color.FromArgb(200, 200, 200);
 
             //設定 Series-----------------------------------------------------------------------
             BarChart.Series["Series1"].ChartType = SeriesChartType.Column; //直條圖
@@ -126,9 +121,9 @@ namespace MainForm
             BarChart.Series["Series2"].Legend = "Legends1";
             BarChart.Series["Series2"].LegendText = titleArr[1];
             BarChart.Series["Series2"].LabelFormat = "#,###"; //金錢格式
-            BarChart.Series["Series2"].MarkerSize = 8; //Label 範圍大小
+            //BarChart.Series["Series2"].MarkerSize = 8; //Label 範圍大小
             BarChart.Series["Series2"].LabelForeColor = Color.FromArgb(255, 103, 0);
-            BarChart.Series["Series2"].Font = new System.Drawing.Font("Trebuchet MS", 10, FontStyle.Bold);
+            //BarChart.Series["Series2"].Font = new System.Drawing.Font("Trebuchet MS", 10, FontStyle.Bold);
             BarChart.Series["Series2"].LabelBackColor = Color.FromArgb(150, 255, 255, 255);
             BarChart.Series["Series2"].Color = Color.FromArgb(240, 252, 180, 65); //背景色
             BarChart.Series["Series2"].IsValueShownAsLabel = true; //顯示數據
