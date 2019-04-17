@@ -15,15 +15,82 @@ namespace WindowsFormsApp1
     {
         System.Windows.Forms.DataVisualization.Charting.Chart Chart1 = null;
 
-        
-
         public Form1()
         {
             InitializeComponent();
-            
-        
+            CreatePieChar();
         }
+        /// <summary>
+        /// 圓餅圖
+        /// </summary>
+        void CreatePieChar()
+        {
+            string[] xValues = { "0-20", "20-30", "30-40", "40-50", "50-60", "> 60", "unknow" };
+            int[] yValues = { 5, 18, 45, 17, 2, 1, 162 };
 
+            //ChartAreas,Series,Legends 基本設定-------------------------------------------------
+            Chart1 = new Chart();
+            Chart1.ChartAreas.Add("ChartArea1"); //圖表區域集合
+            Chart1.Legends.Add("Legends1"); //圖例集合說明
+            Chart1.Series.Add("Series1"); //數據序列集合
+
+            //設定 Chart-------------------------------------------------------------------------
+            Chart1.Width = this.Width;
+            Chart1.Height = this.Height;
+            Title title = new Title();
+            title.Text = "圓餅圖";
+            title.Alignment = ContentAlignment.MiddleCenter;
+            title.Font = new System.Drawing.Font("Trebuchet MS", 14F, FontStyle.Bold);
+            Chart1.Titles.Add(title);
+
+            //設定 ChartArea1--------------------------------------------------------------------
+            Chart1.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
+            Chart1.ChartAreas[0].AxisX.Interval = 1;
+
+            //設定 Legends-------------------------------------------------------------------------                
+            //Chart1.Legends["Legends1"].DockedToChartArea = "ChartArea1"; //顯示在圖表內
+            //Chart1.Legends["Legends1"].Docking = Docking.Bottom; //自訂顯示位置
+            //背景色
+            Chart1.Legends["Legends1"].BackColor = Color.FromArgb(235, 235, 235);
+            //斜線背景
+            Chart1.Legends["Legends1"].BackHatchStyle = ChartHatchStyle.DarkDownwardDiagonal;
+            Chart1.Legends["Legends1"].BorderWidth = 1;
+            Chart1.Legends["Legends1"].BorderColor = Color.FromArgb(200, 200, 200);
+
+            //設定 Series1-----------------------------------------------------------------------
+            Chart1.Series["Series1"].ChartType = SeriesChartType.Pie;
+            //Chart1.Series["Series1"].ChartType = SeriesChartType.Doughnut;
+            Chart1.Series["Series1"].Points.DataBindXY(xValues, yValues);
+            Chart1.Series["Series1"].LegendText = "#VALX:    [ #PERCENT{P1} ]"; //X軸 + 百分比
+            Chart1.Series["Series1"].Label = "#VALX\n#PERCENT{P1}"; //X軸 + 百分比
+            //Chart1.Series["Series1"].LabelForeColor = Color.FromArgb(0, 90, 255); //字體顏色
+            //字體設定
+            Chart1.Series["Series1"].Font = new System.Drawing.Font("Trebuchet MS", 10, System.Drawing.FontStyle.Bold);
+            Chart1.Series["Series1"].Points.FindMaxByValue().LabelForeColor = Color.Red;
+            //Chart1.Series["Series1"].Points.FindMaxByValue().Color = Color.Red;
+            //Chart1.Series["Series1"].Points.FindMaxByValue()["Exploded"] = "true";
+            Chart1.Series["Series1"].BorderColor = Color.FromArgb(255, 101, 101, 101);
+
+            //Chart1.Series["Series1"]["DoughnutRadius"] = "80"; // ChartType為Doughnut時，Set Doughnut hole size
+            //Chart1.Series["Series1"]["PieLabelStyle"] = "Inside"; //數值顯示在圓餅內
+            Chart1.Series["Series1"]["PieLabelStyle"] = "Outside"; //數值顯示在圓餅外
+            //Chart1.Series["Series1"]["PieLabelStyle"] = "Disabled"; //不顯示數值
+            //設定圓餅效果，除 Default 外其他效果3D不適用
+            Chart1.Series["Series1"]["PieDrawingStyle"] = "Default";
+            //Chart1.Series["Series1"]["PieDrawingStyle"] = "SoftEdge";
+            //Chart1.Series["Series1"]["PieDrawingStyle"] = "Concave";
+
+            //Random rnd = new Random();  //亂數產生區塊顏色
+            //foreach (DataPoint point in Chart1.Series["Series1"].Points)
+            //{
+            //    //pie 顏色
+            //    point.Color = Color.FromArgb(150, rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255)); 
+            //}
+            this.Controls.Add(this.Chart1);
+        }
+        /// <summary>
+        /// 長條圖
+        /// </summary>
         void CreateChart()
         {
             string[] xValues = { "數值1", "數值2" };
@@ -108,7 +175,7 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            CreateChart();
+           
         }
     }
 }
