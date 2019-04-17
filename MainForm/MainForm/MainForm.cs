@@ -20,7 +20,8 @@ namespace MainForm
         private void btnCallChar_Click(object sender, EventArgs e)
         {
             FormChart frm2 = new FormChart(this);
-            frm2.Show();
+            frm2.ShowEventStatistics("", "", null);
+            //frm2.Show();
         }
 
         private void btnGenData_Click(object sender, EventArgs e)

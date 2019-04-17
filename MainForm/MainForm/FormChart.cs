@@ -23,7 +23,16 @@ namespace MainForm
             charController = new CharController(this);
             charController.ShowChart(BarEnum.BAR);
         }
-
+        // <summary>
+        /// Constructor, initialize component
+        /// </summary>
+        /// <param name="startDat">起始時間 (字串模式)</param>
+        /// <param name="endDate">結束時間 (字串模式)</param>
+        /// <param name="listData">JWebEventInfo 結構列表</param>
+        public void ShowEventStatistics(string startDate, string endDate, List<JWebEventInfo> listData)
+        {
+            this.Show();
+        }
         private void BarMenuItem_Click(object sender, EventArgs e)
         {
             charController.ShowChart(BarEnum.BAR);

@@ -34,7 +34,7 @@
             // 
             // btnCallChar
             // 
-            this.btnCallChar.Location = new System.Drawing.Point(39, 42);
+            this.btnCallChar.Location = new System.Drawing.Point(427, 54);
             this.btnCallChar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCallChar.Name = "btnCallChar";
             this.btnCallChar.Size = new System.Drawing.Size(56, 18);
@@ -45,7 +45,7 @@
             // 
             // btnGenData
             // 
-            this.btnGenData.Location = new System.Drawing.Point(39, 95);
+            this.btnGenData.Location = new System.Drawing.Point(27, 49);
             this.btnGenData.Name = "btnGenData";
             this.btnGenData.Size = new System.Drawing.Size(75, 23);
             this.btnGenData.TabIndex = 1;
