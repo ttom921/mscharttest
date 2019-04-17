@@ -12,6 +12,9 @@ namespace MainForm
     public partial class FormChart : Form
     {
         CharController charController = null;
+
+        DateTime dtStartTime;
+        DateTime dtEndTime;
         public FormChart()
         {
             InitializeComponent();
@@ -31,8 +34,21 @@ namespace MainForm
         /// <param name="listData">JWebEventInfo 結構列表</param>
         public void ShowEventStatistics(string startDate, string endDate, List<JWebEventInfo> listData)
         {
+            try
+            {
+                dtStartTime = Convert.ToDateTime(startDate);
+                dtEndTime = Convert.ToDateTime(endDate);
+                charController.CalculeEvent(dtStartTime, dtEndTime, listData);
+                charController.ShowChart(BarEnum.BAR);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+           
             this.Show();
         }
+        
         private void BarMenuItem_Click(object sender, EventArgs e)
         {
             charController.ShowChart(BarEnum.BAR);
