@@ -36,7 +36,7 @@ namespace MainForm
                     jWebEventInfo.uploaded_time = dtStartRnd;
                     int eventid = random.Next(0, MAX_EVENT); 
                     jWebEventInfo.event_type = $"event_type {eventid}";
-                    jWebEventInfo.event_name = $"event_name {eventid}";
+                    jWebEventInfo.event_name = $"事件 {eventid}";
                     listData.Add(jWebEventInfo);
                 }
                 dtStartRnd=dtStartRnd.AddDays(1);
