@@ -1,4 +1,7 @@
+程式是由主form來呼叫在MainForm.cs內，先按`產生測試資料`接下來可以按下顯示長條圖或圖餅圖
+
 這是`struct.cs`的內容
+
 ```c#
 
 	#region [ :: JWebEventInfo 結構表 (事件資訊) :: ]
