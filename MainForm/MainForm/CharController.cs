@@ -15,20 +15,28 @@ namespace MainForm
     }
     public class CharController
     {
+        //長條圖
         Chart BarChart = null;
+        //圓餅圖
         Chart PieChart = null;
         Form parentform = null;
-        BarEnum ShowBarState = BarEnum.BAR;
 
+        #region 事件相關資料
+        DateTime dtStartTime;
+        DateTime dtEndTime;
         // 事件統計值
         Dictionary<string, int> dcEvent = new Dictionary<string, int>();
         public CharController(Form form)
         {
             parentform = form;
         }
+        #endregion
+
         #region 事件統計值相關
         public void CalculeEvent(DateTime dtstarttime,DateTime dtendtime, List<JWebEventInfo> listData)
         {
+            dtStartTime = dtstarttime;
+            dtEndTime = dtendtime;
             foreach (var item in listData)
             {
                 if(Between(item.uploaded_time,dtstarttime,dtendtime))
@@ -67,18 +75,6 @@ namespace MainForm
                 case BarEnum.PIE:
                     break;
             }
-
-            //switch (barEnum)
-            //{
-            //    case BarEnum.BAR:
-            //        CreateBarChart();
-            //        showbar();
-            //        break;
-            //    case BarEnum.PIE:
-            //        CreatePieChart();
-            //        showpie();
-            //        break;
-            //}
         }
         #region 建立長條圖
         void CreateBarChart()
@@ -88,57 +84,53 @@ namespace MainForm
                 parentform.Controls.Remove(BarChart);
                 BarChart = null;
             }
-            string[] xValues = { "數值1"};
-            string[] titleArr = { "活動1"};
-            int[] yValues = { 2690 };
             //ChartAreas,Series,Legends 基本設定--------------------------------------------------
             BarChart = new Chart();
             BarChart.ChartAreas.Add("ChartArea1"); //圖表區域集合
             BarChart.Series.Add("Series1"); //數據序列集合
-            //BarChart.Series.Add("Series2");
-            BarChart.Legends.Add("Legends1"); //圖例集合
-
             //設定 Chart
             BarChart.Width = parentform.ClientRectangle.Width;
             BarChart.Height = parentform.ClientRectangle.Height;
             Title title = new Title();
-            title.Text = "長條圖";
-            title.Alignment = ContentAlignment.MiddleCenter;
-            BarChart.Titles.Add(title);
-
+            //標題文字
+            //title.Text = "長條圖";
+            //title.Alignment = ContentAlignment.MiddleCenter;
+            //BarChart.Titles.Add(title);
+            //設定 ChartArea----------------------------------------------------------------------
+            BarChart.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true; //3D效果
+            BarChart.ChartAreas["ChartArea1"].Area3DStyle.IsClustered = true; //並排顯示
+            BarChart.ChartAreas["ChartArea1"].Area3DStyle.Rotation = 40; //垂直角度
+            BarChart.ChartAreas["ChartArea1"].Area3DStyle.Inclination = 50; //水平角度
+            BarChart.ChartAreas["ChartArea1"].Area3DStyle.PointDepth = 10; //數據條深度
+            BarChart.ChartAreas["ChartArea1"].Area3DStyle.WallWidth = 0; //外牆寬度
+            BarChart.ChartAreas["ChartArea1"].Area3DStyle.LightStyle = LightStyle.Realistic; //光源
+            BarChart.ChartAreas["ChartArea1"].BackColor = Color.FromArgb(240, 240, 240); //背景色
             //Y 軸線顏色
             BarChart.ChartAreas["ChartArea1"].AxisY.MajorGrid.LineColor = Color.FromArgb(150, 150, 150);
-            //X 軸線顏色
+            ////X 軸線顏色
             BarChart.ChartAreas["ChartArea1"].AxisX.MajorGrid.LineColor = Color.FromArgb(150, 150, 150);
-            BarChart.ChartAreas["ChartArea1"].AxisY.LabelStyle.Format = "#,###";
-
-            //設定 Series-----------------------------------------------------------------------
+            //Y坐標尺規的間距
+            //BarChart.ChartAreas["ChartArea1"].AxisY.Interval = 100;
+            ////設定 Series-----------------------------------------------------------------------
             BarChart.Series["Series1"].ChartType = SeriesChartType.Column; //直條圖
-                                                                           //Chart1.Series["Series1"].ChartType = SeriesChartType.Bar; //橫條圖
-            BarChart.Series["Series1"].Points.DataBindXY(xValues, yValues);
-            BarChart.Series["Series1"].Legend = "Legends1";
-            BarChart.Series["Series1"].LegendText = titleArr[0];
-            BarChart.Series["Series1"].LabelFormat = "#,###"; //金錢格式
-            BarChart.Series["Series1"].MarkerSize = 8; //Label 範圍大小
-            BarChart.Series["Series1"].LabelForeColor = Color.FromArgb(0, 90, 255); //字體顏色
-
+            //Chart1.Series["Series1"].ChartType = SeriesChartType.Bar; //橫條圖
+            //設定長𪝉圖寬度                                                                
+            //BarChart.Series["Series1"]["PointWidth"] = "0.2";
+            
+            //////////BarChart.Series["Series1"].Points.DataBindXY(xValues, yValues);
+            //將資料塞入Chart Controls
+            foreach (var item in dcEvent)
+            {
+                BarChart.Series["Series1"].Points.AddXY(item.Key, item.Value);
+            }
+            BarChart.Series["Series1"].IsValueShownAsLabel = true; //顯示數據
+            //X坐標軸說明文字
+            BarChart.ChartAreas["ChartArea1"].AxisX.TitleForeColor = Color.BlueViolet;
+            BarChart.ChartAreas["ChartArea1"].AxisX.Title = dtStartTime.ToString("yyyy-MM-dd")+"~"+ dtEndTime.ToString("yyyy-MM-dd");
+            //Y坐標軸說明文字
+            BarChart.ChartAreas["ChartArea1"].AxisY.Title = "Count";
+            //
             parentform.Controls.Add(BarChart);
-        }
-        #endregion
-
-        void showbar()
-        {
-            if (BarChart == null) return;
-            BarChart.Visible = true;
-            if (PieChart == null) return;
-            PieChart.Visible = false;
-        }
-        void showpie()
-        {
-            if (BarChart == null) return;
-            BarChart.Visible = false;
-            if (PieChart == null) return;
-            PieChart.Visible = true;
         }
         //void  CreateBarChart()
         //{
@@ -219,8 +211,25 @@ namespace MainForm
         //    //
         //    parentform.Controls.Add(BarChart);
         //    //
-            
+
         //}
+        #endregion
+
+        void showbar()
+        {
+            if (BarChart == null) return;
+            BarChart.Visible = true;
+            if (PieChart == null) return;
+            PieChart.Visible = false;
+        }
+        void showpie()
+        {
+            if (BarChart == null) return;
+            BarChart.Visible = false;
+            if (PieChart == null) return;
+            PieChart.Visible = true;
+        }
+        
         void CreatePieChart()
         {
             if (PieChart != null) return;

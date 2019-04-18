@@ -11,10 +11,11 @@ namespace MainForm
 {
     public partial class FormChart : Form
     {
+        /// <summary>
+        /// 圖表控制
+        /// </summary>
         CharController charController = null;
 
-        DateTime dtStartTime;
-        DateTime dtEndTime;
         public FormChart()
         {
             InitializeComponent();
@@ -36,8 +37,8 @@ namespace MainForm
         {
             try
             {
-                dtStartTime = Convert.ToDateTime(startDate);
-                dtEndTime = Convert.ToDateTime(endDate);
+                DateTime dtStartTime = Convert.ToDateTime(startDate);
+                DateTime dtEndTime = Convert.ToDateTime(endDate);
                 charController.CalculeEvent(dtStartTime, dtEndTime, listData);
                 charController.ShowChart(BarEnum.BAR);
             }
@@ -48,17 +49,6 @@ namespace MainForm
            
             this.Show();
         }
-        
-        private void BarMenuItem_Click(object sender, EventArgs e)
-        {
-            charController.ShowChart(BarEnum.BAR);
-        }
-
-        private void PieMenuItem_Click(object sender, EventArgs e)
-        {
-            charController.ShowChart(BarEnum.PIE);
-        }
-        
         /// <summary>
         /// 視窗大小改變
         /// </summary>
