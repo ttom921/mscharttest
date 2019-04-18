@@ -15,16 +15,17 @@ namespace MainForm
         /// 圖表控制
         /// </summary>
         CharController charController = null;
-
+        BarEnum barEnum = BarEnum.BAR;
         public FormChart()
         {
             InitializeComponent();
         }
-        public FormChart(Form parent)
+        public FormChart(Form parent,BarEnum lbarEnum= BarEnum.BAR)
         {
             InitializeComponent();
             this.Owner= parent;
             charController = new CharController(this);
+            barEnum = lbarEnum;
             //charController.ShowChart(BarEnum.BAR);
         }
         // <summary>
@@ -39,9 +40,8 @@ namespace MainForm
             {
                 DateTime dtStartTime = Convert.ToDateTime(startDate);
                 DateTime dtEndTime = Convert.ToDateTime(endDate);
-                charController.CalculeEvent(dtStartTime, dtEndTime, listData);
-                charController.ShowChart(BarEnum.BAR);
-                //charController.ShowChart(BarEnum.PIE);
+                charController.CalculateEvent(dtStartTime, dtEndTime, listData);
+                charController.ShowChart(barEnum);
             }
             catch (Exception ex)
             {
@@ -61,7 +61,6 @@ namespace MainForm
             {
                 charController.WindowSizeChange();
             }
-            
         }
     }
 }
