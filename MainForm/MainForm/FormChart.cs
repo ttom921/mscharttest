@@ -25,7 +25,7 @@ namespace MainForm
             InitializeComponent();
             this.Owner= parent;
             charController = new CharController(this);
-            charController.ShowChart(BarEnum.BAR);
+            //charController.ShowChart(BarEnum.BAR);
         }
         // <summary>
         /// Constructor, initialize component
@@ -41,6 +41,7 @@ namespace MainForm
                 DateTime dtEndTime = Convert.ToDateTime(endDate);
                 charController.CalculeEvent(dtStartTime, dtEndTime, listData);
                 charController.ShowChart(BarEnum.BAR);
+                //charController.ShowChart(BarEnum.PIE);
             }
             catch (Exception ex)
             {

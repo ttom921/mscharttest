@@ -52,6 +52,14 @@ namespace MainForm
                 }
             }
         }
+        void OutputPieChatData(List<string> xValues, List<int> yValues)
+        {
+            foreach (var item in dcEvent)
+            {
+                xValues.Add(item.Key);
+                yValues.Add(item.Value);
+            }
+        }
         /// <summary>
         /// 日期比較
         /// </summary>
@@ -73,6 +81,7 @@ namespace MainForm
                     CreateBarChart();
                     break;
                 case BarEnum.PIE:
+                    CreatePieChart();
                     break;
             }
         }
@@ -93,9 +102,10 @@ namespace MainForm
             BarChart.Height = parentform.ClientRectangle.Height;
             Title title = new Title();
             //標題文字
-            //title.Text = "長條圖";
-            //title.Alignment = ContentAlignment.MiddleCenter;
-            //BarChart.Titles.Add(title);
+            title.Text = dtStartTime.ToString("yyyy-MM-dd") + "~" + dtEndTime.ToString("yyyy-MM-dd"); // "圓餅圖";
+            title.Alignment = ContentAlignment.MiddleCenter;
+            title.Font = new System.Drawing.Font("Trebuchet MS", 14F, FontStyle.Bold);
+            BarChart.Titles.Add(title);
             //設定 ChartArea----------------------------------------------------------------------
             BarChart.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true; //3D效果
             BarChart.ChartAreas["ChartArea1"].Area3DStyle.IsClustered = true; //並排顯示
@@ -125,8 +135,8 @@ namespace MainForm
             }
             BarChart.Series["Series1"].IsValueShownAsLabel = true; //顯示數據
             //X坐標軸說明文字
-            BarChart.ChartAreas["ChartArea1"].AxisX.TitleForeColor = Color.BlueViolet;
-            BarChart.ChartAreas["ChartArea1"].AxisX.Title = dtStartTime.ToString("yyyy-MM-dd")+"~"+ dtEndTime.ToString("yyyy-MM-dd");
+            //BarChart.ChartAreas["ChartArea1"].AxisX.TitleForeColor = Color.BlueViolet;
+            //BarChart.ChartAreas["ChartArea1"].AxisX.Title = dtStartTime.ToString("yyyy-MM-dd")+"~"+ dtEndTime.ToString("yyyy-MM-dd");
             //Y坐標軸說明文字
             BarChart.ChartAreas["ChartArea1"].AxisY.Title = "Count";
             //
@@ -215,26 +225,20 @@ namespace MainForm
         //}
         #endregion
 
-        void showbar()
-        {
-            if (BarChart == null) return;
-            BarChart.Visible = true;
-            if (PieChart == null) return;
-            PieChart.Visible = false;
-        }
-        void showpie()
-        {
-            if (BarChart == null) return;
-            BarChart.Visible = false;
-            if (PieChart == null) return;
-            PieChart.Visible = true;
-        }
-        
+        #region 建立圖餅圖
         void CreatePieChart()
         {
-            if (PieChart != null) return;
-            string[] xValues = { "0-20", "20-30", "30-40", "40-50", "50-60", "> 60", "unknow" };
-            int[] yValues = { 5, 18, 45, 17, 2, 1, 162 };
+            if (PieChart != null)
+            {
+                parentform.Controls.Remove(PieChart);
+                PieChart = null;
+            }
+            //建立資料
+            List<string> dataX = new List<string>();
+            List<int> dataY = new List<int>();
+            OutputPieChatData(dataX, dataY);
+            string[] xValues = dataX.ToArray();//{ "0-20", "20-30", "30-40", "40-50", "50-60", "> 60", "unknow" };
+            int[] yValues = dataY.ToArray(); //{ 5, 18, 45, 17, 2, 1, 162 };
 
             //ChartAreas,Series,Legends 基本設定-------------------------------------------------
             PieChart = new Chart();
@@ -245,15 +249,16 @@ namespace MainForm
             //設定 Chart-------------------------------------------------------------------------
             PieChart.Width = parentform.ClientRectangle.Width;
             PieChart.Height = parentform.ClientRectangle.Height;
+            //標題文字
             Title title = new Title();
-            title.Text = "圓餅圖";
+            title.Text = dtStartTime.ToString("yyyy-MM-dd") + "~" + dtEndTime.ToString("yyyy-MM-dd"); // "圓餅圖";
             title.Alignment = ContentAlignment.MiddleCenter;
             title.Font = new System.Drawing.Font("Trebuchet MS", 14F, FontStyle.Bold);
             PieChart.Titles.Add(title);
-
+            
             //設定 ChartArea1--------------------------------------------------------------------
             PieChart.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
-            PieChart.ChartAreas[0].AxisX.Interval = 1;
+            //PieChart.ChartAreas[0].AxisX.Interval = 1;
 
             //設定 Legends-------------------------------------------------------------------------                
             //Chart1.Legends["Legends1"].DockedToChartArea = "ChartArea1"; //顯示在圖表內
@@ -288,16 +293,82 @@ namespace MainForm
             //Chart1.Series["Series1"]["PieDrawingStyle"] = "SoftEdge";
             //Chart1.Series["Series1"]["PieDrawingStyle"] = "Concave";
 
-            //Random rnd = new Random();  //亂數產生區塊顏色
-            //foreach (DataPoint point in Chart1.Series["Series1"].Points)
-            //{
-            //    //pie 顏色
-            //    point.Color = Color.FromArgb(150, rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255)); 
-            //}
-            //
+            
+
             parentform.Controls.Add(PieChart);
             //
         }
+        //void CreatePieChart()
+        //{
+        //    if (PieChart != null) return;
+        //    string[] xValues = { "0-20", "20-30", "30-40", "40-50", "50-60", "> 60", "unknow" };
+        //    int[] yValues = { 5, 18, 45, 17, 2, 1, 162 };
+
+        //    //ChartAreas,Series,Legends 基本設定-------------------------------------------------
+        //    PieChart = new Chart();
+        //    PieChart.ChartAreas.Add("ChartArea1"); //圖表區域集合
+        //    PieChart.Legends.Add("Legends1"); //圖例集合說明
+        //    PieChart.Series.Add("Series1"); //數據序列集合
+
+        //    //設定 Chart-------------------------------------------------------------------------
+        //    PieChart.Width = parentform.ClientRectangle.Width;
+        //    PieChart.Height = parentform.ClientRectangle.Height;
+        //    Title title = new Title();
+        //    title.Text = "圓餅圖";
+        //    title.Alignment = ContentAlignment.MiddleCenter;
+        //    title.Font = new System.Drawing.Font("Trebuchet MS", 14F, FontStyle.Bold);
+        //    PieChart.Titles.Add(title);
+
+        //    //設定 ChartArea1--------------------------------------------------------------------
+        //    PieChart.ChartAreas["ChartArea1"].Area3DStyle.Enable3D = true;
+        //    PieChart.ChartAreas[0].AxisX.Interval = 1;
+
+        //    //設定 Legends-------------------------------------------------------------------------                
+        //    //Chart1.Legends["Legends1"].DockedToChartArea = "ChartArea1"; //顯示在圖表內
+        //    //Chart1.Legends["Legends1"].Docking = Docking.Bottom; //自訂顯示位置
+        //    //背景色
+        //    PieChart.Legends["Legends1"].BackColor = Color.FromArgb(235, 235, 235);
+        //    //斜線背景
+        //    PieChart.Legends["Legends1"].BackHatchStyle = ChartHatchStyle.DarkDownwardDiagonal;
+        //    PieChart.Legends["Legends1"].BorderWidth = 1;
+        //    PieChart.Legends["Legends1"].BorderColor = Color.FromArgb(200, 200, 200);
+
+        //    //設定 Series1-----------------------------------------------------------------------
+        //    PieChart.Series["Series1"].ChartType = SeriesChartType.Pie;
+        //    //Chart1.Series["Series1"].ChartType = SeriesChartType.Doughnut;
+        //    PieChart.Series["Series1"].Points.DataBindXY(xValues, yValues);
+        //    PieChart.Series["Series1"].LegendText = "#VALX:    [ #PERCENT{P1} ]"; //X軸 + 百分比
+        //    PieChart.Series["Series1"].Label = "#VALX\n#PERCENT{P1}"; //X軸 + 百分比
+        //    //Chart1.Series["Series1"].LabelForeColor = Color.FromArgb(0, 90, 255); //字體顏色
+        //    //字體設定
+        //    PieChart.Series["Series1"].Font = new System.Drawing.Font("Trebuchet MS", 10, System.Drawing.FontStyle.Bold);
+        //    PieChart.Series["Series1"].Points.FindMaxByValue().LabelForeColor = Color.Red;
+        //    //Chart1.Series["Series1"].Points.FindMaxByValue().Color = Color.Red;
+        //    //Chart1.Series["Series1"].Points.FindMaxByValue()["Exploded"] = "true";
+        //    PieChart.Series["Series1"].BorderColor = Color.FromArgb(255, 101, 101, 101);
+
+        //    //Chart1.Series["Series1"]["DoughnutRadius"] = "80"; // ChartType為Doughnut時，Set Doughnut hole size
+        //    //Chart1.Series["Series1"]["PieLabelStyle"] = "Inside"; //數值顯示在圓餅內
+        //    PieChart.Series["Series1"]["PieLabelStyle"] = "Outside"; //數值顯示在圓餅外
+        //    //Chart1.Series["Series1"]["PieLabelStyle"] = "Disabled"; //不顯示數值
+        //    //設定圓餅效果，除 Default 外其他效果3D不適用
+        //    PieChart.Series["Series1"]["PieDrawingStyle"] = "Default";
+        //    //Chart1.Series["Series1"]["PieDrawingStyle"] = "SoftEdge";
+        //    //Chart1.Series["Series1"]["PieDrawingStyle"] = "Concave";
+
+        //    //Random rnd = new Random();  //亂數產生區塊顏色
+        //    //foreach (DataPoint point in Chart1.Series["Series1"].Points)
+        //    //{
+        //    //    //pie 顏色
+        //    //    point.Color = Color.FromArgb(150, rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255)); 
+        //    //}
+        //    //
+        //    parentform.Controls.Add(PieChart);
+        //    //
+        //}
+        #endregion
+
+        // windows 的大小有改變
         public void WindowSizeChange()
         {
             if (BarChart != null)
